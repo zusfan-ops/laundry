@@ -1,60 +1,71 @@
 #!/usr/bin/env bash
 # ============================================================
-# Selly Laundry - Auto Deploy Script
-# Dipanggil oleh aaPanel Git Manager setiap ada webhook dari GitHub.
+# Selly Laundry — Auto Deploy (zero-downtime, self-healing)
 #
-# Cara pakai:
-#   1. Taruh file ini di root project (sudah otomatis ada di sini).
-#   2. chmod +x deploy.sh
-#   3. Di aaPanel: Website -> (situs ini) -> Git Manager -> Script,
-#      arahkan ke path file ini, lalu hubungkan ke Webhook URL
-#      dan pasang URL tsb di GitHub -> Settings -> Webhooks.
-#   4. Sesuaikan APP_USER di bawah jika bukan "www".
+# Dipanggil oleh deploy-watch.sh (cron) saat webhook GitHub memicu update.
+#
+# Prinsip:
+#   * TANPA maintenance panjang: asset di-build saat situs masih online.
+#   * Cache dibersihkan tepat setelah git reset supaya kode baru konsisten
+#     (menghindari 500 "Undefined variable" akibat route/view cache lama).
+#   * migrate dijalankan sebelum build berat agar skema & kode sinkron.
+#   * `trap ... EXIT` menjamin `php artisan up` selalu dipanggil — situs tidak
+#     akan pernah nyangkut di mode maintenance meski ada langkah gagal.
+#
+# Seluruh isi dibungkus main(){...} lalu dipanggil di akhir, supaya bash sudah
+# membaca penuh script SEBELUM `git reset` (yang bisa mengubah file ini).
 # ============================================================
 
-set -euo pipefail
+main() {
+    set -euo pipefail
 
-APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-APP_USER="www"
-BRANCH="main"
+    APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    APP_USER="www"
+    BRANCH="main"
 
-cd "$APP_DIR"
+    # PATH aman untuk cron (php/composer/node). Sesuaikan bila versi berbeda.
+    export PATH="/usr/local/bin:/usr/bin:/bin:/www/server/nodejs/current/bin:$PATH"
 
-log() { echo -e "\n==> $1"; }
+    cd "$APP_DIR"
+    git config --global --add safe.directory "$APP_DIR" 2>/dev/null || true
 
-log "[1/9] Masuk mode maintenance"
-php artisan down --retry=15 || true
+    # Jaring pengaman: apa pun yang terjadi, jangan tinggalkan situs "down".
+    trap 'php artisan up >/dev/null 2>&1 || true' EXIT
 
-log "[2/9] Menarik perubahan terbaru dari GitHub (branch: $BRANCH)"
-git fetch origin "$BRANCH"
-git reset --hard "origin/$BRANCH"
+    log() { echo -e "\n==> $1"; }
 
-log "[3/9] Install dependency PHP (production, tanpa dev)"
-composer install --no-dev --optimize-autoloader --no-interaction
+    # Bersihkan sisa maintenance dari run sebelumnya (jika ada).
+    php artisan up >/dev/null 2>&1 || true
 
-log "[4/9] Install & build asset frontend (Vite)"
-npm ci
-npm run build
+    log "[1/7] Menarik kode terbaru (branch: $BRANCH)"
+    git fetch origin "$BRANCH"
+    git reset --hard "origin/$BRANCH"
 
-log "[5/9] Menjalankan migrasi database"
-php artisan migrate --force
+    log "[2/7] Composer (produksi)"
+    composer install --no-dev --optimize-autoloader --no-interaction
 
-log "[6/9] Membersihkan & membangun ulang cache konfigurasi"
-php artisan config:clear
-php artisan config:cache
-php artisan route:clear
-php artisan route:cache
-php artisan view:clear
-php artisan view:cache
+    log "[3/7] Bersihkan cache lama (agar kode baru konsisten)"
+    php artisan optimize:clear
 
-log "[7/9] Restart queue worker (jika sedang berjalan)"
-php artisan queue:restart || true
+    log "[4/7] Migrasi database"
+    php artisan migrate --force
 
-log "[8/9] Memperbaiki kepemilikan & permission file"
-chown -R "$APP_USER":"$APP_USER" "$APP_DIR" || true
-chmod -R ug+rwx "$APP_DIR/storage" "$APP_DIR/bootstrap/cache" || true
+    log "[5/7] Build asset Vite (situs tetap ONLINE)"
+    npm ci
+    npm run build
 
-log "[9/9] Keluar dari mode maintenance"
-php artisan up
+    log "[6/7] Bangun ulang cache (optimasi)"
+    php artisan config:cache
+    php artisan route:cache
+    php artisan view:cache
 
-log "Deploy selesai pada $(date '+%Y-%m-%d %H:%M:%S')"
+    log "[7/7] Perbaiki kepemilikan & permission"
+    chown -R "$APP_USER":"$APP_USER" "$APP_DIR" 2>/dev/null || true
+    chmod -R ug+rwx "$APP_DIR/storage" "$APP_DIR/bootstrap/cache" 2>/dev/null || true
+
+    php artisan queue:restart >/dev/null 2>&1 || true
+
+    log "Deploy selesai pada $(date '+%Y-%m-%d %H:%M:%S')"
+}
+
+main "$@"
