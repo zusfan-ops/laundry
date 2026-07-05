@@ -13,10 +13,8 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-<body class="font-sans antialiased text-selly-text">
-    <div class="app-shell">
-        {{ $slot }}
-    </div>
+<body class="font-sans antialiased text-selly-text mesh-bg">
+    {{ $slot }}
     <x-toast />
     @livewireScripts
 </body>

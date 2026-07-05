@@ -1,10 +1,10 @@
-<div class="min-h-dvh flex flex-col bg-selly-primary">
+<div class="min-h-dvh flex flex-col grad-primary hero-header w-full max-w-md mx-auto lg:my-10 lg:min-h-0 lg:rounded-3xl lg:overflow-hidden lg:shadow-card">
     {{-- Brand header --}}
-    <div class="flex-1 flex flex-col items-center justify-center text-white px-6 py-10">
-        <x-logo class="w-20 h-20 mb-4 drop-shadow" />
+    <div class="relative z-10 flex-1 flex flex-col items-center justify-center text-white px-6 py-12">
+        <x-logo class="w-20 h-20 mb-4 drop-shadow-lg" />
 
-        <h1 class="text-2xl font-bold">Selly Laundry</h1>
-        <p class="text-white/80 text-sm mt-1">Cuci tinggal pesan, kami jemput & antar.</p>
+        <h1 class="text-2xl font-extrabold">Selly Laundry</h1>
+        <p class="text-white/85 text-sm mt-1">Cuci tinggal pesan, kami jemput & antar.</p>
     </div>
 
     {{-- Form card --}}
@@ -35,7 +35,7 @@
             </label>
 
             <button type="submit"
-                    class="w-full bg-selly-primary text-white font-semibold py-3 rounded-xl active:scale-[0.99] transition shadow-soft"
+                    class="w-full grad-primary text-white font-bold py-3 rounded-xl active:scale-[0.99] transition shadow-card"
                     wire:loading.attr="disabled">
                 <span wire:loading.remove wire:target="authenticate">Masuk</span>
                 <span wire:loading wire:target="authenticate">Memproses…</span>

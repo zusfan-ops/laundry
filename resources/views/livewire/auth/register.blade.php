@@ -1,10 +1,10 @@
-<div class="min-h-dvh flex flex-col bg-selly-bg">
-    <div class="bg-selly-primary text-white px-6 pt-10 pb-8 rounded-b-3xl">
-        <a href="{{ route('login') }}" class="inline-flex items-center gap-1 text-white/90 text-sm mb-4">
+<div class="min-h-dvh flex flex-col bg-selly-surface w-full max-w-md mx-auto lg:my-10 lg:min-h-0 lg:rounded-3xl lg:overflow-hidden lg:shadow-card">
+    <div class="grad-primary hero-header text-white px-6 pt-10 pb-8 rounded-b-3xl lg:rounded-b-3xl">
+        <a href="{{ route('login') }}" class="relative z-10 inline-flex items-center gap-1 text-white/90 text-sm mb-4">
             <x-icon name="arrow-left" class="w-4 h-4" /> Kembali
         </a>
-        <h1 class="text-2xl font-bold">Daftar Akun</h1>
-        <p class="text-white/80 text-sm mt-1">Buat akun untuk mulai memesan laundry.</p>
+        <h1 class="relative z-10 text-2xl font-extrabold">Daftar Akun</h1>
+        <p class="relative z-10 text-white/85 text-sm mt-1">Buat akun untuk mulai memesan laundry.</p>
     </div>
 
     <div class="px-6 pt-6 pb-10">

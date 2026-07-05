@@ -12,16 +12,17 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-<body class="font-sans antialiased text-selly-text bg-selly-bg min-h-dvh">
+<body class="font-sans antialiased text-selly-text mesh-bg min-h-dvh">
     @auth
-        <header class="bg-selly-primary-dark text-white sticky top-0 z-30 shadow-soft">
-            <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <span class="font-bold text-lg">Selly Laundry</span>
+        <header class="grad-primary hero-header text-white sticky top-0 z-30 shadow-card">
+            <div class="relative z-10 max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+                <a href="{{ route('staff.home') }}" class="flex items-center gap-2.5">
+                    <x-logo class="w-9 h-9" />
+                    <span class="font-extrabold text-lg">Selly Laundry</span>
                     <span class="text-xs bg-white/20 px-2 py-0.5 rounded-full capitalize">{{ str_replace('_', ' ', auth()->user()->role) }}</span>
-                </div>
+                </a>
                 <div class="flex items-center gap-3 text-sm">
-                    <span class="hidden sm:inline">{{ auth()->user()->name }}</span>
+                    <span class="hidden sm:inline font-medium">{{ auth()->user()->name }}</span>
                     <a href="{{ route('staff.home') }}" class="opacity-80 hover:opacity-100">Menu</a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf

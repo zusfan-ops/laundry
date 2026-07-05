@@ -11,22 +11,20 @@
 
     {{-- KPI cards --}}
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
-        <div class="bg-white rounded-2xl p-4 shadow-soft">
-            <div class="flex items-center gap-2 text-selly-muted text-xs"><x-icon name="trending-up" class="w-4 h-4" /> GMV (Lunas)</div>
-            <p class="text-xl font-bold mt-1 text-selly-primary">{{ rupiah($gmv) }}</p>
-        </div>
-        <div class="bg-white rounded-2xl p-4 shadow-soft">
-            <div class="flex items-center gap-2 text-selly-muted text-xs"><x-icon name="receipt" class="w-4 h-4" /> Total Order</div>
-            <p class="text-xl font-bold mt-1">{{ $totalOrders }}</p>
-        </div>
-        <div class="bg-white rounded-2xl p-4 shadow-soft">
-            <div class="flex items-center gap-2 text-selly-muted text-xs"><x-icon name="wallet" class="w-4 h-4" /> Rata-rata Order</div>
-            <p class="text-xl font-bold mt-1">{{ rupiah($avgOrderValue) }}</p>
-        </div>
-        <div class="bg-white rounded-2xl p-4 shadow-soft">
-            <div class="flex items-center gap-2 text-selly-muted text-xs"><x-icon name="check-circle" class="w-4 h-4" /> Completion Rate</div>
-            <p class="text-xl font-bold mt-1 text-selly-success">{{ $completionRate }}%</p>
-        </div>
+        @foreach([
+            ['trending-up','GMV (Lunas)', rupiah($gmv), 'grad-primary'],
+            ['receipt','Total Order', $totalOrders, 'grad-ocean'],
+            ['wallet','Rata-rata Order', rupiah($avgOrderValue), 'grad-violet'],
+            ['check-circle','Completion Rate', $completionRate.'%', 'grad-mint'],
+        ] as [$ic,$label,$val,$g])
+            <div class="relative overflow-hidden rounded-2xl p-4 shadow-card {{ $g }} text-white">
+                <x-icon :name="$ic" class="w-16 h-16 absolute -right-3 -bottom-3 opacity-20" />
+                <div class="relative z-10">
+                    <div class="flex items-center gap-1.5 text-white/85 text-xs font-medium"><x-icon :name="$ic" class="w-4 h-4" /> {{ $label }}</div>
+                    <p class="text-2xl font-extrabold mt-1">{{ $val }}</p>
+                </div>
+            </div>
+        @endforeach
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
