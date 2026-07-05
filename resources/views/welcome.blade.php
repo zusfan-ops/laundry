@@ -1,224 +1,347 @@
-<x-layouts.guest title="Selly Laundry — Laundry Pickup & Delivery">
-    {{-- Top navbar --}}
-    <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-100">
+<x-layouts.guest title="Selly Laundry — Laundry Antar-Jemput">
+    @php
+        $kiloan = $services->where('pricing_type', 'weight')->take(4);
+        $satuan = $services->where('pricing_type', 'unit')->take(4);
+        $fallbackKiloan = [['Cuci Kering', 5000, 'kg'], ['Cuci-Setrika Reguler', 7000, 'kg'], ['Setrika Saja', 4000, 'kg'], ['Cuci Express 1 Hari', 10000, 'kg']];
+        $fallbackSatuan  = [['Bed Cover', 25000, 'pcs'], ['Jas / Blazer', 30000, 'pcs'], ['Sepatu', 35000, 'pcs'], ['Karpet', 15000, 'pcs']];
+    @endphp
+
+    {{-- Navbar --}}
+    <header class="sticky top-0 z-40 bg-[#F7FAFC]/85 backdrop-blur border-b border-slate-200/70">
         <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
             <a href="{{ route('welcome') }}" class="flex items-center gap-2.5">
-                <x-logo class="w-10 h-10" />
-                <div class="leading-none">
-                    <p class="font-extrabold text-lg">Selly<span class="text-selly-primary">Laundry</span></p>
-                </div>
+                <x-logo class="w-9 h-9" />
+                <p class="font-extrabold text-lg tracking-tight">Selly<span class="text-selly-primary">Laundry</span></p>
             </a>
-            <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-selly-muted">
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
                 <a href="#cara-kerja" class="hover:text-selly-primary transition">Cara Kerja</a>
+                <a href="#harga" class="hover:text-selly-primary transition">Harga</a>
                 <a href="#cabang" class="hover:text-selly-primary transition">Cabang</a>
                 <a href="#faq" class="hover:text-selly-primary transition">FAQ</a>
             </nav>
-            <div class="flex items-center gap-2">
-                <a href="{{ route('login') }}" class="hidden sm:inline text-sm font-semibold text-selly-primary px-4 py-2 rounded-xl hover:bg-selly-primary-soft transition">Masuk</a>
-                <a href="{{ route('register') }}" class="text-sm font-bold text-white grad-primary px-4 py-2 rounded-xl shadow-soft hover:opacity-95 transition">Daftar</a>
+            <div class="flex items-center gap-1.5">
+                <a href="{{ route('login') }}" class="hidden sm:inline text-sm font-semibold text-slate-700 px-4 py-2 rounded-full hover:bg-slate-100 transition">Masuk</a>
+                <a href="{{ route('register') }}" class="text-sm font-bold text-white bg-selly-primary px-5 py-2.5 rounded-full shadow-sm hover:bg-selly-primary-dark transition">Daftar</a>
             </div>
         </div>
     </header>
 
     {{-- Hero --}}
-    <section class="relative overflow-hidden">
-        <div class="max-w-6xl mx-auto px-5 pt-10 pb-14 lg:pt-16 lg:pb-20 grid lg:grid-cols-2 gap-10 items-center">
-            <div class="text-center lg:text-left">
-                <span class="inline-flex items-center gap-1.5 bg-selly-accent-soft text-selly-warning text-xs font-bold px-3 py-1.5 rounded-full">
-                    <x-icon name="sparkles" class="w-3.5 h-3.5" /> #1 Laundry Antar-Jemput
+    <section class="relative overflow-hidden bg-gradient-to-b from-cyan-50/70 to-transparent">
+        <div class="max-w-6xl mx-auto px-5 pt-12 pb-16 lg:pt-20 grid lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-8 items-center">
+            {{-- Left --}}
+            <div>
+                <span class="inline-flex items-center gap-2 text-xs font-semibold text-selly-primary-dark bg-white ring-1 ring-cyan-100 px-3 py-1.5 rounded-full shadow-sm">
+                    <span class="w-1.5 h-1.5 rounded-full bg-selly-accent"></span> Laundry antar-jemput #1 di kotamu
                 </span>
-                <h1 class="mt-4 text-4xl lg:text-5xl font-extrabold leading-tight">
-                    Cuci Tinggal <span class="text-grad">Pesan</span>,<br class="hidden lg:block"> Kami Jemput &amp; Antar.
+
+                <h1 class="mt-5 text-[2.6rem] leading-[1.05] lg:text-6xl lg:leading-[1.02] font-extrabold tracking-tight text-slate-900">
+                    Cuci tinggal <span class="mark-accent">pesan</span>,<br>
+                    kami jemput &amp; antar.
                 </h1>
-                <p class="mt-4 text-selly-muted text-base lg:text-lg max-w-lg mx-auto lg:mx-0">
-                    Layanan laundry profesional dengan harga transparan, penjemputan terjadwal, dan pelacakan pesanan real-time — langsung dari genggaman.
+
+                <p class="mt-5 text-slate-600 text-lg max-w-md">
+                    Harga <b class="text-slate-800">transparan per kilo</b>, dijemput sesuai jadwal, dan bisa dilacak sampai kembali ke depan pintu.
                 </p>
-                <div class="mt-7 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
-                    <a href="{{ route('register') }}" class="grad-primary text-white font-bold px-6 py-3.5 rounded-2xl shadow-card hover:opacity-95 transition text-center">
-                        Mulai Sekarang
+
+                <div class="mt-7 flex flex-wrap gap-3">
+                    <a href="{{ route('register') }}" class="bg-selly-primary text-white font-bold px-6 py-3.5 rounded-full shadow-sm hover:bg-selly-primary-dark transition">
+                        Jadwalkan Pickup
                     </a>
-                    <a href="#cara-kerja" class="bg-white text-selly-text font-bold px-6 py-3.5 rounded-2xl shadow-soft hover:shadow-card transition text-center">
-                        Lihat Cara Kerja
+                    <a href="#cara-kerja" class="inline-flex items-center gap-2 text-slate-800 font-bold px-5 py-3.5 rounded-full ring-1 ring-slate-200 bg-white hover:ring-slate-300 transition">
+                        <x-icon name="chevron-right" class="w-4 h-4 text-selly-primary" /> Cara kerjanya
                     </a>
                 </div>
 
-                {{-- Stats --}}
-                <div class="mt-9 grid grid-cols-3 gap-4 max-w-md mx-auto lg:mx-0">
-                    @foreach([[$stats['services'].'+','Layanan'],[$stats['outlets'],'Cabang'],[$stats['customers'].'+','Pelanggan']] as [$num,$lbl])
-                        <div>
-                            <p class="text-2xl lg:text-3xl font-extrabold text-grad">{{ $num }}</p>
-                            <p class="text-xs text-selly-muted">{{ $lbl }}</p>
-                        </div>
+                {{-- Factual trust chips --}}
+                <div class="mt-8 flex flex-wrap gap-x-5 gap-y-2 text-sm text-slate-600">
+                    @foreach(['Bayar setelah ditimbang','Gratis ongkir min. 50rb','Express selesai 24 jam'] as $chip)
+                        <span class="inline-flex items-center gap-1.5">
+                            <x-icon name="check-circle" class="w-4 h-4 text-selly-success" /> {{ $chip }}
+                        </span>
                     @endforeach
                 </div>
             </div>
 
-            {{-- Hero visual --}}
+            {{-- Right: order ticket mock --}}
             <div class="relative">
-                <div class="grad-ocean rounded-[32px] p-8 shadow-card relative overflow-hidden hero-header">
-                    <x-illu name="bubbles" class="absolute -right-6 -top-6 w-40 h-40 opacity-30" />
-                    <div class="relative z-10 grid grid-cols-2 gap-4">
-                        <div class="bg-white/95 rounded-2xl p-4 col-span-2 flex items-center gap-3">
-                            <x-illu name="washer" class="w-14 h-14" />
-                            <div>
-                                <p class="font-bold">Cuci Kiloan & Satuan</p>
-                                <p class="text-xs text-selly-muted">Reguler, Express, hingga Kilat 1 hari.</p>
+                <div class="absolute -right-10 -top-10 w-72 h-72 bg-cyan-200/40 blur-3xl rounded-full"></div>
+                <div class="absolute right-0 top-1/2 dot-grid text-cyan-200/60 w-40 h-40 -z-0" aria-hidden="true"></div>
+
+                <div class="relative bg-white rounded-3xl shadow-card ring-1 ring-slate-100 overflow-hidden max-w-md mx-auto">
+                    <div class="bg-selly-primary text-white px-6 py-4 flex items-center justify-between">
+                        <div>
+                            <p class="text-[11px] text-white/80 uppercase tracking-wide">Pesanan</p>
+                            <p class="font-bold tracking-tight">SLY-20260705-0042</p>
+                        </div>
+                        <span class="text-xs font-semibold bg-white/20 px-2.5 py-1 rounded-full">Sedang dicuci</span>
+                    </div>
+
+                    <div class="p-6">
+                        <div class="space-y-3 text-sm">
+                            @foreach([['washing-machine','Cuci-Setrika Reguler','3,0 kg',21000],['box','Bed Cover','1 pcs',25000],['sparkles','Parfum Lavender','',2000]] as [$ic,$nm,$q,$pr])
+                                <div class="flex items-center gap-3">
+                                    <span class="w-9 h-9 rounded-lg bg-cyan-50 text-selly-primary flex items-center justify-center shrink-0"><x-icon :name="$ic" class="w-4 h-4" /></span>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="font-semibold text-slate-800 leading-tight">{{ $nm }}</p>
+                                        @if($q)<p class="text-xs text-slate-400">{{ $q }}</p>@endif
+                                    </div>
+                                    <span class="font-semibold text-slate-700">{{ rupiah($pr) }}</span>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <div class="ticket-perf mt-5 pt-5">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-slate-500">Estimasi total</span>
+                                <span class="text-lg font-extrabold text-selly-primary">{{ rupiah(48000) }}</span>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-1">Gratis ongkir · Selesai besok, 15.00</p>
+
+                            <div class="mt-4">
+                                <div class="h-1.5 rounded-full bg-slate-100 overflow-hidden">
+                                    <div class="h-full w-3/5 bg-selly-primary rounded-full"></div>
+                                </div>
+                                <div class="mt-2 flex justify-between text-[11px] font-medium">
+                                    <span class="text-selly-success">✓ Dijemput</span>
+                                    <span class="text-selly-primary">Dicuci</span>
+                                    <span class="text-slate-400">Diantar</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="bg-white/95 rounded-2xl p-4 flex flex-col items-center text-center gap-1.5">
-                            <x-illu name="delivery" class="w-12 h-12" />
-                            <p class="text-xs font-semibold">Pickup & Antar</p>
-                        </div>
-                        <div class="bg-white/95 rounded-2xl p-4 flex flex-col items-center text-center gap-1.5">
-                            <x-illu name="sparkle" class="w-12 h-12" />
-                            <p class="text-xs font-semibold">Bersih & Wangi</p>
-                        </div>
+                    </div>
+                </div>
+
+                {{-- floating courier chip --}}
+                <div class="hidden sm:flex absolute -left-3 lg:-left-6 bottom-8 items-center gap-2 bg-white rounded-2xl shadow-card ring-1 ring-slate-100 px-3.5 py-2.5">
+                    <span class="w-8 h-8 rounded-full bg-amber-50 text-selly-accent flex items-center justify-center"><x-icon name="truck" class="w-4 h-4" /></span>
+                    <div class="text-xs leading-tight">
+                        <p class="font-bold text-slate-800">Kurir 1,2 km lagi</p>
+                        <p class="text-slate-400">Eko · AB 1234 XY</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    {{-- Promo banners --}}
-    @if($banners->isNotEmpty())
-        <section class="max-w-6xl mx-auto px-5 pb-4">
-            <div class="grid md:grid-cols-3 gap-4">
-                @foreach($banners as $banner)
-                    <x-promo-banner :banner="$banner" />
-                @endforeach
-            </div>
-        </section>
-    @endif
-
-    {{-- How it works --}}
-    <section id="cara-kerja" class="max-w-6xl mx-auto px-5 py-14">
-        <div class="text-center mb-10">
-            <h2 class="text-3xl font-extrabold">Cara Kerja</h2>
-            <p class="text-selly-muted mt-2">Empat langkah mudah, cucian beres tanpa repot.</p>
-        </div>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            @foreach([
-                ['shopping-bag','1. Pesan','Pilih layanan & jadwalkan pickup.','grad-ocean'],
-                ['truck','2. Dijemput','Kurir menjemput cucian ke alamatmu.','grad-violet'],
-                ['washing-machine','3. Ditimbang & Dicuci','Harga final transparan setelah ditimbang.','grad-mint'],
-                ['sparkles','4. Diantar','Cucian bersih wangi diantar kembali.','grad-sunset'],
-            ] as [$ic,$title,$desc,$g])
-                <div class="bg-white rounded-3xl p-6 shadow-soft card-hover relative overflow-hidden">
-                    <span class="inline-flex w-14 h-14 rounded-2xl {{ $g }} text-white items-center justify-center mb-4">
-                        <x-icon :name="$ic" class="w-7 h-7" />
-                    </span>
-                    <p class="font-bold">{{ $title }}</p>
-                    <p class="text-sm text-selly-muted mt-1">{{ $desc }}</p>
+    {{-- Value strip --}}
+    <section class="border-y border-slate-200/70 bg-white">
+        <div class="max-w-6xl mx-auto px-5 py-6 grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-5">
+            @foreach([['scale','Harga transparan','Dihitung per kg'],['truck','Antar-jemput','Sesuai slot waktu'],['sparkles','Bersih & wangi','Parfum pilihan'],['navigation','Bisa dilacak','Real-time sampai antar']] as [$ic,$t,$d])
+                <div class="flex items-center gap-3">
+                    <span class="w-11 h-11 rounded-xl bg-cyan-50 text-selly-primary flex items-center justify-center shrink-0"><x-icon :name="$ic" class="w-5 h-5" /></span>
+                    <div>
+                        <p class="font-bold text-sm text-slate-800 leading-tight">{{ $t }}</p>
+                        <p class="text-xs text-slate-500">{{ $d }}</p>
+                    </div>
                 </div>
             @endforeach
         </div>
     </section>
 
-    {{-- Branches --}}
-    @if($outlets->isNotEmpty())
-        <section id="cabang" class="bg-white/60 py-14">
-            <div class="max-w-6xl mx-auto px-5">
-                <div class="text-center mb-10">
-                    <h2 class="text-3xl font-extrabold flex items-center justify-center gap-2"><x-icon name="map-pin" class="w-7 h-7 text-selly-primary" /> Lokasi Cabang</h2>
-                    <p class="text-selly-muted mt-2">Temukan outlet Selly Laundry terdekat.</p>
+    {{-- Promo banners (jika ada) --}}
+    @if($banners->isNotEmpty())
+        <section class="max-w-6xl mx-auto px-5 pt-12">
+            <div class="grid md:grid-cols-3 gap-4">
+                @foreach($banners as $banner)<x-promo-banner :banner="$banner" />@endforeach
+            </div>
+        </section>
+    @endif
+
+    {{-- Cara Kerja — route timeline --}}
+    <section id="cara-kerja" class="max-w-6xl mx-auto px-5 py-16 lg:py-20">
+        <div class="max-w-xl mb-12">
+            <p class="text-sm font-bold text-selly-primary uppercase tracking-wide">Cara Kerja</p>
+            <h2 class="mt-2 text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">Empat langkah, cucian beres.</h2>
+        </div>
+
+        <div class="relative grid sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10">
+            {{-- connector line (desktop) --}}
+            <div class="hidden lg:block absolute top-7 left-[11%] right-[11%] border-t-2 border-dashed border-slate-200" aria-hidden="true"></div>
+            @foreach([
+                ['shopping-bag','Pesan','Pilih layanan & tentukan jadwal pickup.'],
+                ['truck','Dijemput','Kurir menjemput cucian ke alamatmu.'],
+                ['washing-machine','Ditimbang & dicuci','Harga final muncul setelah ditimbang.'],
+                ['sparkles','Diantar','Cucian bersih wangi kembali ke pintumu.'],
+            ] as $i => [$ic,$title,$desc])
+                <div class="relative text-center lg:text-left">
+                    <div class="relative z-10 w-14 h-14 rounded-2xl bg-white ring-1 ring-slate-100 shadow-soft flex items-center justify-center mx-auto lg:mx-0">
+                        <x-icon :name="$ic" class="w-6 h-6 text-selly-primary" />
+                        <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-selly-accent text-white text-xs font-extrabold flex items-center justify-center ring-2 ring-white">{{ $i + 1 }}</span>
+                    </div>
+                    <p class="mt-4 font-bold text-slate-900">{{ $title }}</p>
+                    <p class="mt-1 text-sm text-slate-500">{{ $desc }}</p>
                 </div>
-                <div class="grid md:grid-cols-2 gap-6">
-                    @foreach($outlets as $outlet)
-                        <div class="bg-white rounded-3xl shadow-soft overflow-hidden card-hover">
-                            @if($outlet->mapEmbedUrl())
-                                <iframe class="w-full h-52 border-0" loading="lazy" title="Peta {{ $outlet->name }}" src="{{ $outlet->mapEmbedUrl() }}"></iframe>
-                            @endif
-                            <div class="p-5">
-                                <p class="font-bold text-lg">{{ $outlet->name }}</p>
-                                @if($outlet->address)<p class="text-sm text-selly-muted mt-1 flex items-start gap-1.5"><x-icon name="map-pin" class="w-4 h-4 shrink-0 mt-0.5"/> {{ $outlet->address }}</p>@endif
-                                <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-xs text-selly-muted">
+            @endforeach
+        </div>
+    </section>
+
+    {{-- Layanan & Harga --}}
+    <section id="harga" class="bg-white border-y border-slate-200/70">
+        <div class="max-w-6xl mx-auto px-5 py-16 lg:py-20">
+            <div class="flex flex-wrap items-end justify-between gap-4 mb-10">
+                <div class="max-w-xl">
+                    <p class="text-sm font-bold text-selly-primary uppercase tracking-wide">Layanan &amp; Harga</p>
+                    <h2 class="mt-2 text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">Tarif jelas, tanpa kejutan.</h2>
+                </div>
+                <a href="{{ route('register') }}" class="text-sm font-bold text-selly-primary hover:text-selly-primary-dark">Lihat semua layanan →</a>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                {{-- Kiloan --}}
+                <div class="rounded-3xl ring-1 ring-slate-100 p-6 lg:p-7 bg-gradient-to-b from-cyan-50/60 to-white">
+                    <div class="flex items-center gap-2.5 mb-5">
+                        <span class="w-10 h-10 rounded-xl bg-selly-primary text-white flex items-center justify-center"><x-icon name="washing-machine" class="w-5 h-5" /></span>
+                        <h3 class="font-extrabold text-lg">Kiloan <span class="text-slate-400 font-medium text-sm">/ kg</span></h3>
+                    </div>
+                    <ul class="divide-y divide-slate-100">
+                        @forelse($kiloan as $s)
+                            <li class="flex items-center justify-between py-3">
+                                <span class="text-slate-700">{{ $s->name }}</span>
+                                <span class="font-bold text-slate-900">{{ rupiah($s->unit_price) }}<span class="text-slate-400 font-medium text-sm">/{{ $s->unit_label }}</span></span>
+                            </li>
+                        @empty
+                            @foreach($fallbackKiloan as [$nm,$pr,$u])
+                                <li class="flex items-center justify-between py-3">
+                                    <span class="text-slate-700">{{ $nm }}</span>
+                                    <span class="font-bold text-slate-900">{{ rupiah($pr) }}<span class="text-slate-400 font-medium text-sm">/{{ $u }}</span></span>
+                                </li>
+                            @endforeach
+                        @endforelse
+                    </ul>
+                </div>
+
+                {{-- Satuan --}}
+                <div class="rounded-3xl ring-1 ring-slate-100 p-6 lg:p-7 bg-gradient-to-b from-amber-50/60 to-white">
+                    <div class="flex items-center gap-2.5 mb-5">
+                        <span class="w-10 h-10 rounded-xl bg-selly-accent text-white flex items-center justify-center"><x-icon name="box" class="w-5 h-5" /></span>
+                        <h3 class="font-extrabold text-lg">Satuan <span class="text-slate-400 font-medium text-sm">/ item</span></h3>
+                    </div>
+                    <ul class="divide-y divide-slate-100">
+                        @forelse($satuan as $s)
+                            <li class="flex items-center justify-between py-3">
+                                <span class="text-slate-700">{{ $s->name }}</span>
+                                <span class="font-bold text-slate-900">{{ rupiah($s->unit_price) }}<span class="text-slate-400 font-medium text-sm">/{{ $s->unit_label }}</span></span>
+                            </li>
+                        @empty
+                            @foreach($fallbackSatuan as [$nm,$pr,$u])
+                                <li class="flex items-center justify-between py-3">
+                                    <span class="text-slate-700">{{ $nm }}</span>
+                                    <span class="font-bold text-slate-900">{{ rupiah($pr) }}<span class="text-slate-400 font-medium text-sm">/{{ $u }}</span></span>
+                                </li>
+                            @endforeach
+                        @endforelse
+                    </ul>
+                </div>
+            </div>
+            <p class="text-xs text-slate-400 mt-4">*Harga kiloan bersifat estimasi; total final dihitung setelah cucian ditimbang di outlet.</p>
+        </div>
+    </section>
+
+    {{-- Cabang --}}
+    @if($outlets->isNotEmpty())
+        <section id="cabang" class="max-w-6xl mx-auto px-5 py-16 lg:py-20">
+            <div class="max-w-xl mb-10">
+                <p class="text-sm font-bold text-selly-primary uppercase tracking-wide">Lokasi</p>
+                <h2 class="mt-2 text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">Cabang terdekat.</h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                @foreach($outlets as $outlet)
+                    <div class="rounded-3xl overflow-hidden ring-1 ring-slate-100 bg-white">
+                        @if($outlet->mapEmbedUrl())
+                            <iframe class="w-full h-52 border-0" loading="lazy" title="Peta {{ $outlet->name }}" src="{{ $outlet->mapEmbedUrl() }}"></iframe>
+                        @endif
+                        <div class="p-5 flex items-start justify-between gap-4">
+                            <div>
+                                <p class="font-bold text-lg text-slate-900">{{ $outlet->name }}</p>
+                                @if($outlet->address)<p class="text-sm text-slate-500 mt-1">{{ $outlet->address }}</p>@endif
+                                <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-xs text-slate-500">
                                     @if($outlet->phone)<span class="flex items-center gap-1"><x-icon name="phone" class="w-3.5 h-3.5"/> {{ $outlet->phone }}</span>@endif
                                     @if($outlet->opening_hours)<span class="flex items-center gap-1"><x-icon name="clock" class="w-3.5 h-3.5"/> {{ $outlet->opening_hours }}</span>@endif
                                 </div>
-                                @if($outlet->directionsUrl())
-                                    <a href="{{ $outlet->directionsUrl() }}" target="_blank"
-                                       class="inline-flex items-center gap-1.5 mt-4 grad-primary text-white text-sm font-bold px-4 py-2.5 rounded-xl">
-                                        <x-icon name="navigation" class="w-4 h-4" /> Buka Rute
-                                    </a>
-                                @endif
                             </div>
+                            @if($outlet->directionsUrl())
+                                <a href="{{ $outlet->directionsUrl() }}" target="_blank" class="shrink-0 inline-flex items-center gap-1.5 text-sm font-bold text-selly-primary ring-1 ring-cyan-100 bg-cyan-50 px-3.5 py-2 rounded-full">
+                                    <x-icon name="navigation" class="w-4 h-4" /> Rute
+                                </a>
+                            @endif
                         </div>
-                    @endforeach
-                </div>
+                    </div>
+                @endforeach
             </div>
         </section>
     @endif
 
     {{-- FAQ --}}
     @if($faqs->isNotEmpty())
-        <section id="faq" class="max-w-4xl mx-auto px-5 py-14">
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-extrabold">Pertanyaan Umum</h2>
-                <p class="text-selly-muted mt-2">Hal yang sering ditanyakan pelanggan.</p>
-            </div>
-            <div class="space-y-3" x-data="{ open: 0 }">
-                @foreach($faqs as $i => $faq)
-                    <div class="bg-white rounded-2xl shadow-soft overflow-hidden">
-                        <button type="button" @click="open === {{ $i }} ? open = null : open = {{ $i }}"
-                                class="w-full flex items-center justify-between gap-3 px-5 py-4 text-left">
-                            <span class="font-bold">{{ $faq->question }}</span>
-                            <span class="w-7 h-7 rounded-full bg-selly-primary-soft text-selly-primary flex items-center justify-center shrink-0 transition-transform" x-bind:class="open === {{ $i }} ? 'rotate-90' : ''">
-                                <x-icon name="chevron-right" class="w-4 h-4" />
-                            </span>
-                        </button>
-                        <div x-show="open === {{ $i }}" x-collapse class="px-5 pb-5 -mt-1">
-                            <p class="text-sm text-selly-muted">{{ $faq->answer }}</p>
+        <section id="faq" class="bg-white border-y border-slate-200/70">
+            <div class="max-w-3xl mx-auto px-5 py-16 lg:py-20">
+                <div class="text-center mb-10">
+                    <p class="text-sm font-bold text-selly-primary uppercase tracking-wide">FAQ</p>
+                    <h2 class="mt-2 text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">Yang sering ditanyakan.</h2>
+                </div>
+                <div class="divide-y divide-slate-100" x-data="{ open: 0 }">
+                    @foreach($faqs as $i => $faq)
+                        <div>
+                            <button type="button" @click="open === {{ $i }} ? open = null : open = {{ $i }}"
+                                    class="w-full flex items-center justify-between gap-4 py-5 text-left">
+                                <span class="font-bold text-slate-800">{{ $faq->question }}</span>
+                                <x-icon name="plus" class="w-5 h-5 text-selly-primary shrink-0 transition-transform" x-bind:class="open === {{ $i }} ? 'rotate-45' : ''" />
+                            </button>
+                            <div x-show="open === {{ $i }}" x-collapse class="pb-5 -mt-1">
+                                <p class="text-slate-600">{{ $faq->answer }}</p>
+                            </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
         </section>
     @endif
 
-    {{-- CTA band --}}
-    <section class="max-w-6xl mx-auto px-5 pb-14">
-        <div class="grad-violet rounded-[32px] px-6 py-12 text-center text-white shadow-card relative overflow-hidden hero-header">
-            <x-illu name="sparkle" class="absolute left-6 top-6 w-16 h-16 opacity-30" />
-            <x-illu name="bubbles" class="absolute right-4 bottom-2 w-28 h-28 opacity-25" />
-            <div class="relative z-10">
-                <h2 class="text-2xl lg:text-3xl font-extrabold">Siap cucian beres tanpa repot?</h2>
-                <p class="mt-2 text-white/90">Daftar gratis dan jadwalkan pickup pertamamu hari ini.</p>
-                <a href="{{ route('register') }}" class="inline-block mt-6 bg-white text-selly-primary-dark font-bold px-8 py-3.5 rounded-2xl shadow-card hover:opacity-95 transition">
-                    Mulai Sekarang
-                </a>
+    {{-- CTA --}}
+    <section class="max-w-6xl mx-auto px-5 py-16">
+        <div class="relative overflow-hidden rounded-[28px] bg-selly-primary-dark text-white px-8 py-14 lg:px-14">
+            <div class="absolute -right-16 -bottom-16 w-64 h-64 rounded-full bg-white/10"></div>
+            <div class="absolute right-24 -top-10 w-32 h-32 rounded-full bg-selly-accent/20"></div>
+            <div class="relative max-w-lg">
+                <h2 class="text-3xl lg:text-4xl font-extrabold tracking-tight">Cucian menumpuk? Biar kami yang urus.</h2>
+                <p class="mt-3 text-white/80">Daftar gratis, jadwalkan pickup pertamamu, dan pantau prosesnya langsung dari HP.</p>
+                <div class="mt-7 flex flex-wrap gap-3">
+                    <a href="{{ route('register') }}" class="bg-white text-selly-primary-dark font-bold px-6 py-3.5 rounded-full hover:bg-cyan-50 transition">Daftar Gratis</a>
+                    <a href="{{ route('login') }}" class="font-bold px-6 py-3.5 rounded-full ring-1 ring-white/30 hover:bg-white/10 transition">Sudah punya akun</a>
+                </div>
             </div>
         </div>
     </section>
 
     {{-- Footer --}}
-    <footer class="bg-slate-900 text-slate-300">
-        <div class="max-w-6xl mx-auto px-5 py-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    <footer class="bg-slate-900 text-slate-400">
+        <div class="max-w-6xl mx-auto px-5 py-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <div class="sm:col-span-2 lg:col-span-1">
                 <div class="flex items-center gap-2.5 mb-3">
-                    <x-logo class="w-10 h-10" />
+                    <x-logo class="w-9 h-9" />
                     <p class="font-extrabold text-white text-lg">Selly Laundry</p>
                 </div>
-                <p class="text-sm text-slate-400">Layanan laundry antar-jemput profesional dengan harga transparan.</p>
+                <p class="text-sm">Layanan laundry antar-jemput profesional dengan harga transparan.</p>
             </div>
             <div>
-                <p class="font-bold text-white mb-3">Layanan</p>
-                <ul class="space-y-2 text-sm text-slate-400">
-                    <li>Cuci Kiloan</li><li>Cuci-Setrika</li><li>Express 1 Hari</li><li>Satuan & Sepatu</li>
-                </ul>
+                <p class="font-bold text-white mb-3 text-sm">Layanan</p>
+                <ul class="space-y-2 text-sm"><li>Cuci Kiloan</li><li>Cuci-Setrika</li><li>Express 1 Hari</li><li>Satuan &amp; Sepatu</li></ul>
             </div>
             <div>
-                <p class="font-bold text-white mb-3">Perusahaan</p>
-                <ul class="space-y-2 text-sm text-slate-400">
+                <p class="font-bold text-white mb-3 text-sm">Perusahaan</p>
+                <ul class="space-y-2 text-sm">
                     <li><a href="#cara-kerja" class="hover:text-white">Cara Kerja</a></li>
+                    <li><a href="#harga" class="hover:text-white">Harga</a></li>
                     <li><a href="#cabang" class="hover:text-white">Cabang</a></li>
                     <li><a href="#faq" class="hover:text-white">FAQ</a></li>
                 </ul>
             </div>
             <div>
-                <p class="font-bold text-white mb-3">Mulai</p>
+                <p class="font-bold text-white mb-3 text-sm">Mulai</p>
                 <div class="space-y-2">
-                    <a href="{{ route('register') }}" class="block text-center grad-primary text-white font-bold px-4 py-2.5 rounded-xl">Daftar</a>
-                    <a href="{{ route('login') }}" class="block text-center bg-slate-800 text-white font-semibold px-4 py-2.5 rounded-xl">Masuk</a>
+                    <a href="{{ route('register') }}" class="block text-center bg-selly-primary text-white font-bold px-4 py-2.5 rounded-full">Daftar</a>
+                    <a href="{{ route('login') }}" class="block text-center bg-slate-800 text-white font-semibold px-4 py-2.5 rounded-full">Masuk</a>
                 </div>
             </div>
         </div>

@@ -53,8 +53,8 @@ class SmokeTest extends TestCase
     {
         $this->get('/')
             ->assertOk()
-            ->assertSee('Lokasi Cabang')
-            ->assertSee('Pertanyaan Umum')
+            ->assertSee('Cabang terdekat')
+            ->assertSee('Layanan & Harga')
             ->assertSee('openstreetmap.org', false)
             ->assertSee('Cara Kerja');
     }

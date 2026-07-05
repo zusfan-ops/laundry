@@ -33,6 +33,8 @@ Route::get('/', function () {
         'banners' => \App\Models\PromoBanner::live()->take(5)->get(),
         'outlets' => \App\Models\Outlet::where('is_active', true)->orderBy('name')->get(),
         'faqs' => \App\Models\Faq::where('is_active', true)->orderBy('sort_order')->get(),
+        'services' => \App\Models\Service::with('category')->where('is_active', true)
+            ->orderBy('pricing_type')->take(6)->get(),
         'stats' => [
             'services' => \App\Models\Service::where('is_active', true)->count(),
             'outlets' => \App\Models\Outlet::where('is_active', true)->count(),
