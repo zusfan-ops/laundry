@@ -1,0 +1,49 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../views/**/*.blade.php';
+@source '../../app/Livewire/**/*.php';
+
+@theme {
+    --font-sans: 'Plus Jakarta Sans', 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+    --color-selly-primary: #0EA5A4;
+    --color-selly-primary-dark: #0B7E7D;
+    --color-selly-primary-soft: #E1F5F4;
+    --color-selly-accent: #FFB020;
+    --color-selly-coral: #FF6B57;
+    --color-selly-success: #16A34A;
+    --color-selly-warning: #F59E0B;
+    --color-selly-danger: #DC2626;
+    --color-selly-bg: #F4FBFB;
+    --color-selly-surface: #FFFFFF;
+    --color-selly-text: #1F2937;
+    --color-selly-muted: #6B7280;
+
+    --radius-card: 16px;
+    --radius-btn: 12px;
+
+    --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-nav: 0 -2px 12px rgba(0, 0, 0, 0.06);
+}
+
+@layer base {
+    body {
+        background-color: var(--color-selly-bg);
+        color: var(--color-selly-text);
+    }
+}
+
+/* Mobile app shell — center the PWA on wide screens */
+.app-shell {
+    margin-inline: auto;
+    max-width: 480px;
+    min-height: 100dvh;
+    background-color: var(--color-selly-bg);
+    position: relative;
+}
+
+/* Hide scrollbar for horizontal scrollers */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

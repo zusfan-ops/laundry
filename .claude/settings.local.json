@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Set-Location 'c:\\\\laragon\\\\www\\\\laundry'; $env:DB_CONNECTION='mysql'; $env:DB_DATABASE='selly_laundry'; $env:DB_HOST='localhost'; php artisan test --filter=SmokeTest 2>&1 | Select-Object -Last 40)"
+    ]
+  }
+}

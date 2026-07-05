@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Offline — Selly Laundry</title>
+    <style>
+        body { font-family: system-ui, sans-serif; background: #F4FBFB; color: #1F2937; display: grid; place-items: center; min-height: 100vh; margin: 0; text-align: center; padding: 1.5rem; }
+        .badge { width: 72px; height: 72px; border-radius: 20px; background: #E1F5F4; color: #0B7E7D; display: grid; place-items: center; margin: 0 auto 1rem; font-size: 32px; }
+        h1 { font-size: 1.25rem; margin: 0 0 .5rem; }
+        p { color: #6B7280; margin: 0 0 1.25rem; }
+        button { background: #0EA5A4; color: #fff; border: 0; padding: .75rem 1.5rem; border-radius: 12px; font-weight: 600; font-size: 1rem; }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="badge">📶</div>
+        <h1>Anda sedang offline</h1>
+        <p>Periksa koneksi internet Anda, lalu coba lagi.</p>
+        <button onclick="location.reload()">Coba Lagi</button>
+    </div>
+</body>
+</html>
