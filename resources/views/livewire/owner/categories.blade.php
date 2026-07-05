@@ -66,7 +66,7 @@
                 <div class="flex flex-col items-end gap-1.5">
                     <button wire:click="edit({{ $cat->id }})" class="text-selly-primary"><x-icon name="edit" class="w-4 h-4" /></button>
                     <button wire:click="toggle({{ $cat->id }})"
-                            class="text-[11px] font-semibold px-2 py-0.5 rounded-full {{ $cat->is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
+                            class="text-[11px] font-semibold px-2 py-0.5 rounded-full {{ $cat->is_active ? 'bg-selly-success/15 text-selly-success' : 'bg-selly-muted/15 text-selly-muted' }}">
                         {{ $cat->is_active ? 'Aktif' : 'Nonaktif' }}
                     </button>
                 </div>

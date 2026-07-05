@@ -51,7 +51,7 @@
                             <button wire:click="delete({{ $f->id }})" wire:confirm="Hapus FAQ ini?" class="text-selly-danger"><x-icon name="x" class="w-4 h-4" /></button>
                         </div>
                         <button wire:click="toggle({{ $f->id }})"
-                                class="text-[11px] font-semibold px-2 py-0.5 rounded-full {{ $f->is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
+                                class="text-[11px] font-semibold px-2 py-0.5 rounded-full {{ $f->is_active ? 'bg-selly-success/15 text-selly-success' : 'bg-selly-muted/15 text-selly-muted' }}">
                             {{ $f->is_active ? 'Tampil' : 'Disembunyikan' }}
                         </button>
                     </div>

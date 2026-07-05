@@ -67,7 +67,7 @@
         @foreach($services as $s)
             <div class="flex items-center gap-3 p-3.5 {{ $s->is_active ? '' : 'opacity-60' }}">
                 <span class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-                      style="background-color: {{ $s->category->color ?? '#0EA5A4' }}1A; color: {{ $s->category->color ?? '#0EA5A4' }}">
+                      style="background-color: {{ $s->category->color ?? '#0891B2' }}1A; color: {{ $s->category->color ?? '#0891B2' }}">
                     <x-icon :name="$s->category->icon ?? 'box'" class="w-6 h-6" />
                 </span>
                 <div class="flex-1 min-w-0">
@@ -76,7 +76,7 @@
                 </div>
                 <button wire:click="edit({{ $s->id }})" class="text-selly-primary"><x-icon name="edit" class="w-4 h-4" /></button>
                 <button wire:click="toggle({{ $s->id }})"
-                        class="text-[11px] font-semibold px-2 py-0.5 rounded-full {{ $s->is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
+                        class="text-[11px] font-semibold px-2 py-0.5 rounded-full {{ $s->is_active ? 'bg-selly-success/15 text-selly-success' : 'bg-selly-muted/15 text-selly-muted' }}">
                     {{ $s->is_active ? 'Aktif' : 'Nonaktif' }}
                 </button>
             </div>

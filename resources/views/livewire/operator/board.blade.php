@@ -12,7 +12,7 @@
             <div class="bg-white rounded-2xl p-3 shadow-soft">
                 <div class="flex items-center justify-between mb-3 px-1">
                     <h2 class="font-semibold text-sm">{{ $title }}</h2>
-                    <span class="text-xs bg-gray-100 text-selly-muted px-2 py-0.5 rounded-full">{{ $orders->count() }}</span>
+                    <span class="text-xs bg-selly-muted/15 text-selly-muted px-2 py-0.5 rounded-full">{{ $orders->count() }}</span>
                 </div>
                 <div class="space-y-3 min-h-[40px]">
                     @forelse($orders as $order)
@@ -32,7 +32,7 @@
                                 @elseif($order->status === 'at_outlet')
                                     <button wire:click="openWeigh({{ $order->id }})" class="text-xs bg-selly-primary text-white px-2.5 py-1 rounded-lg font-medium flex items-center gap-1"><x-icon name="scale" class="w-3.5 h-3.5"/> Timbang</button>
                                 @elseif($order->status === 'awaiting_price_confirm')
-                                    <span class="text-xs text-orange-600 font-medium">Menunggu konfirmasi pelanggan</span>
+                                    <span class="text-xs text-selly-accent font-medium">Menunggu konfirmasi pelanggan</span>
                                 @elseif($order->status === 'processing')
                                     <button wire:click="markReady({{ $order->id }})" class="text-xs bg-selly-primary text-white px-2.5 py-1 rounded-lg font-medium">Selesai + QC</button>
                                 @elseif($order->status === 'ready')

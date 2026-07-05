@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#0B7E7D">
+    <meta name="theme-color" content="#0E7490">
     <title>{{ $title ?? 'Selly Laundry — Staf' }}</title>
     <meta name="app-base" content="{{ rtrim(parse_url(config('app.url'), PHP_URL_PATH) ?? '', '/') }}">
     <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">

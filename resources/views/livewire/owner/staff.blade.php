@@ -86,7 +86,7 @@
                     </div>
                     <button wire:click="editStaff({{ $u->id }})" class="text-selly-primary"><x-icon name="edit" class="w-4 h-4" /></button>
                     <button wire:click="toggleStaff({{ $u->id }})"
-                            class="text-[11px] font-semibold px-2 py-0.5 rounded-full {{ $u->is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
+                            class="text-[11px] font-semibold px-2 py-0.5 rounded-full {{ $u->is_active ? 'bg-selly-success/15 text-selly-success' : 'bg-selly-muted/15 text-selly-muted' }}">
                         {{ $u->is_active ? 'Aktif' : 'Nonaktif' }}
                     </button>
                 </div>
@@ -115,9 +115,9 @@
                             <p class="text-xs text-selly-muted">Pokok {{ rupiah($s->base_amount) }}</p>
                         </div>
                         @if($s->status === 'paid')
-                            <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-700">Lunas</span>
+                            <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-selly-success/15 text-selly-success">Lunas</span>
                         @else
-                            <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Draft</span>
+                            <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-selly-accent/15 text-selly-accent">Draft</span>
                         @endif
                     </div>
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 items-end">

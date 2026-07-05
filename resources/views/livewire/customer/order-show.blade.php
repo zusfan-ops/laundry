@@ -29,9 +29,9 @@
 
         {{-- Price confirmation banner --}}
         @if($order->status === 'awaiting_price_confirm')
-            <div class="rounded-2xl bg-orange-50 border border-orange-200 p-4">
-                <p class="font-semibold text-orange-700 flex items-center gap-1.5"><x-icon name="scale" class="w-5 h-5" /> Konfirmasi Harga</p>
-                <p class="text-sm text-orange-700/90 mt-1">Berat aktual <b>{{ rtrim(rtrim(number_format($order->actual_weight,1),'0'),'.') }} kg</b> (estimasi {{ rtrim(rtrim(number_format($order->estimated_weight,1),'0'),'.') }} kg). Harga final menjadi <b>{{ rupiah($order->final_total) }}</b>.</p>
+            <div class="rounded-2xl bg-selly-accent-soft border border-selly-accent/30 p-4">
+                <p class="font-semibold text-selly-accent flex items-center gap-1.5"><x-icon name="scale" class="w-5 h-5" /> Konfirmasi Harga</p>
+                <p class="text-sm text-selly-accent/80 mt-1">Berat aktual <b>{{ rtrim(rtrim(number_format($order->actual_weight,1),'0'),'.') }} kg</b> (estimasi {{ rtrim(rtrim(number_format($order->estimated_weight,1),'0'),'.') }} kg). Harga final menjadi <b>{{ rupiah($order->final_total) }}</b>.</p>
                 @php $photo = $order->statusLogs->whereNotNull('photo_path')->last(); @endphp
                 @if($photo)
                     <img src="{{ Storage::url($photo->photo_path) }}" class="mt-3 rounded-xl w-full max-h-48 object-cover" alt="Foto timbangan">
@@ -63,10 +63,10 @@
                         @php $done = $rank >= $threshold; $active = ($rank === $threshold) || ($i>0 && $rank >= $milestones[$i-1][1] && $rank < $threshold); @endphp
                         <div class="flex gap-3">
                             <div class="flex flex-col items-center">
-                                <span class="w-9 h-9 rounded-full flex items-center justify-center {{ $done ? 'bg-selly-primary text-white' : 'bg-gray-100 text-gray-400' }}">
+                                <span class="w-9 h-9 rounded-full flex items-center justify-center {{ $done ? 'bg-selly-primary text-white' : 'bg-selly-muted/15 text-selly-muted' }}">
                                     <x-icon :name="$done ? 'check' : $icon" class="w-4 h-4" />
                                 </span>
-                                @if(!$loop->last)<span class="w-0.5 flex-1 min-h-6 {{ $rank > $threshold ? 'bg-selly-primary' : 'bg-gray-200' }}"></span>@endif
+                                @if(!$loop->last)<span class="w-0.5 flex-1 min-h-6 {{ $rank > $threshold ? 'bg-selly-primary' : 'bg-selly-muted/20' }}"></span>@endif
                             </div>
                             <div class="pb-5 pt-1.5">
                                 <p class="text-sm font-medium {{ $done ? 'text-selly-text' : 'text-selly-muted' }}">{{ $label }}</p>
@@ -115,7 +115,7 @@
                 <div class="flex gap-1 mb-3" x-data>
                     @for($i=1; $i<=5; $i++)
                         <button wire:click="$set('rating', {{ $i }})">
-                            <x-icon name="star" class="w-8 h-8 {{ $rating >= $i ? 'text-selly-accent fill-selly-accent' : 'text-gray-300' }}" style="{{ $rating >= $i ? 'fill: currentColor' : '' }}" />
+                            <x-icon name="star" class="w-8 h-8 {{ $rating >= $i ? 'text-selly-accent fill-selly-accent' : 'text-selly-muted/30' }}" style="{{ $rating >= $i ? 'fill: currentColor' : '' }}" />
                         </button>
                     @endfor
                 </div>

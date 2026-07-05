@@ -77,7 +77,7 @@
                 <x-promo-banner :banner="$b" />
                 <div class="flex items-center gap-2 mt-2">
                     <button wire:click="edit({{ $b->id }})" class="text-xs bg-white border border-gray-200 px-3 py-1.5 rounded-lg font-medium flex items-center gap-1"><x-icon name="edit" class="w-3.5 h-3.5"/> Ubah</button>
-                    <button wire:click="toggle({{ $b->id }})" class="text-xs font-semibold px-3 py-1.5 rounded-lg {{ $b->is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">{{ $b->is_active ? 'Tayang' : 'Disembunyikan' }}</button>
+                    <button wire:click="toggle({{ $b->id }})" class="text-xs font-semibold px-3 py-1.5 rounded-lg {{ $b->is_active ? 'bg-selly-success/15 text-selly-success' : 'bg-selly-muted/15 text-selly-muted' }}">{{ $b->is_active ? 'Tayang' : 'Disembunyikan' }}</button>
                     <button wire:click="delete({{ $b->id }})" wire:confirm="Hapus banner ini?" class="text-xs text-selly-danger px-2 ml-auto">Hapus</button>
                 </div>
             </div>
