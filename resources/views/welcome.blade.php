@@ -63,57 +63,76 @@
                 </div>
             </div>
 
-            {{-- Right: order ticket mock --}}
-            <div class="relative">
-                <div class="absolute -right-10 -top-10 w-72 h-72 bg-cyan-200/40 blur-3xl rounded-full"></div>
-                <div class="absolute right-0 top-1/2 dot-grid text-cyan-200/60 w-40 h-40 -z-0" aria-hidden="true"></div>
+            {{-- Right: torn paper receipt (nota sobek, sedikit miring) --}}
+            @php
+                // Zigzag "sobekan" bawah nota — dibangun sekali, di-stretch via preserveAspectRatio.
+                $tw = 13; $W = 320; $tornPath = "M0 0 H{$W} V5";
+                for ($x = $W; $x > 0; $x -= $tw) {
+                    $tornPath .= ' L' . round($x - $tw / 2, 1) . ' 15 L' . round(max(0, $x - $tw), 1) . ' 5';
+                }
+                $tornPath .= ' Z';
+            @endphp
+            <div class="relative py-6">
+                <div class="absolute -right-10 -top-6 w-72 h-72 bg-cyan-200/40 blur-3xl rounded-full" aria-hidden="true"></div>
+                <div class="absolute right-2 bottom-2 dot-grid text-cyan-200/70 w-36 h-36 -z-0" aria-hidden="true"></div>
 
-                <div class="relative bg-white rounded-3xl shadow-card ring-1 ring-slate-100 overflow-hidden max-w-md mx-auto">
-                    <div class="bg-selly-primary text-white px-6 py-4 flex items-center justify-between">
-                        <div>
-                            <p class="text-[11px] text-white/80 uppercase tracking-wide">Pesanan</p>
-                            <p class="font-bold tracking-tight">SLY-20260705-0042</p>
+                {{-- lembar nota di belakang (kesan tumpukan) --}}
+                <div class="absolute inset-x-8 top-8 bottom-4 bg-white/70 rounded-2xl rotate-[5deg] ring-1 ring-slate-100" aria-hidden="true"></div>
+
+                {{-- nota utama --}}
+                <div class="relative max-w-sm mx-auto rotate-[-3deg]" style="filter: drop-shadow(0 22px 26px rgba(15,23,42,.16));">
+                    <div class="bg-white rounded-t-2xl overflow-hidden">
+                        <div class="bg-selly-primary text-white px-6 py-4 flex items-center justify-between">
+                            <div>
+                                <p class="text-[11px] text-white/80 uppercase tracking-widest">Pesanan</p>
+                                <p class="font-bold tracking-tight tabular-nums">SLY-20260705-0042</p>
+                            </div>
+                            <span class="text-xs font-semibold bg-white/20 px-2.5 py-1 rounded-full">Sedang dicuci</span>
                         </div>
-                        <span class="text-xs font-semibold bg-white/20 px-2.5 py-1 rounded-full">Sedang dicuci</span>
-                    </div>
 
-                    <div class="p-6">
-                        <div class="space-y-3 text-sm">
-                            @foreach([['washing-machine','Cuci-Setrika Reguler','3,0 kg',21000],['box','Bed Cover','1 pcs',25000],['sparkles','Parfum Lavender','',2000]] as [$ic,$nm,$q,$pr])
-                                <div class="flex items-center gap-3">
-                                    <span class="w-9 h-9 rounded-lg bg-cyan-50 text-selly-primary flex items-center justify-center shrink-0"><x-icon :name="$ic" class="w-4 h-4" /></span>
-                                    <div class="flex-1 min-w-0">
-                                        <p class="font-semibold text-slate-800 leading-tight">{{ $nm }}</p>
-                                        @if($q)<p class="text-xs text-slate-400">{{ $q }}</p>@endif
+                        <div class="px-6 pt-6 pb-7">
+                            <div class="space-y-3 text-sm">
+                                @foreach([['washing-machine','Cuci-Setrika Reguler','3,0 kg',21000],['box','Bed Cover','1 pcs',25000],['sparkles','Parfum Lavender','',2000]] as [$ic,$nm,$q,$pr])
+                                    <div class="flex items-center gap-3">
+                                        <span class="w-9 h-9 rounded-lg bg-cyan-50 text-selly-primary flex items-center justify-center shrink-0"><x-icon :name="$ic" class="w-4 h-4" /></span>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="font-semibold text-slate-800 leading-tight">{{ $nm }}</p>
+                                            @if($q)<p class="text-xs text-slate-400">{{ $q }}</p>@endif
+                                        </div>
+                                        <span class="font-semibold text-slate-700 tabular-nums">{{ rupiah($pr) }}</span>
                                     </div>
-                                    <span class="font-semibold text-slate-700">{{ rupiah($pr) }}</span>
-                                </div>
-                            @endforeach
-                        </div>
-
-                        <div class="ticket-perf mt-5 pt-5">
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm text-slate-500">Estimasi total</span>
-                                <span class="text-lg font-extrabold text-selly-primary">{{ rupiah(48000) }}</span>
+                                @endforeach
                             </div>
-                            <p class="text-xs text-slate-400 mt-1">Gratis ongkir · Selesai besok, 15.00</p>
 
-                            <div class="mt-4">
-                                <div class="h-1.5 rounded-full bg-slate-100 overflow-hidden">
-                                    <div class="h-full w-3/5 bg-selly-primary rounded-full"></div>
+                            <div class="ticket-perf mt-5 pt-5">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-slate-500">Estimasi total</span>
+                                    <span class="text-lg font-extrabold text-selly-primary tabular-nums">{{ rupiah(48000) }}</span>
                                 </div>
-                                <div class="mt-2 flex justify-between text-[11px] font-medium">
-                                    <span class="text-selly-success">✓ Dijemput</span>
-                                    <span class="text-selly-primary">Dicuci</span>
-                                    <span class="text-slate-400">Diantar</span>
+                                <p class="text-xs text-slate-400 mt-1">Gratis ongkir · Selesai besok, 15.00</p>
+
+                                <div class="mt-4">
+                                    <div class="h-1.5 rounded-full bg-slate-100 overflow-hidden">
+                                        <div class="h-full w-3/5 bg-selly-primary rounded-full"></div>
+                                    </div>
+                                    <div class="mt-2 flex justify-between text-[11px] font-medium">
+                                        <span class="text-selly-success">✓ Dijemput</span>
+                                        <span class="text-selly-primary">Dicuci</span>
+                                        <span class="text-slate-400">Diantar</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    {{-- tepi bawah sobek --}}
+                    <svg viewBox="0 0 {{ $W }} 16" preserveAspectRatio="none" class="block w-full h-4 -mt-px" aria-hidden="true">
+                        <path d="{{ $tornPath }}" fill="#fff" />
+                    </svg>
                 </div>
 
-                {{-- floating courier chip --}}
-                <div class="hidden sm:flex absolute -left-3 lg:-left-6 bottom-8 items-center gap-2 bg-white rounded-2xl shadow-card ring-1 ring-slate-100 px-3.5 py-2.5">
+                {{-- chip kurir (tegak, seperti stiker) --}}
+                <div class="hidden sm:flex absolute left-0 lg:-left-4 bottom-6 items-center gap-2 bg-white rounded-2xl shadow-card ring-1 ring-slate-100 px-3.5 py-2.5 rotate-[-3deg]">
                     <span class="w-8 h-8 rounded-full bg-amber-50 text-selly-accent flex items-center justify-center"><x-icon name="truck" class="w-4 h-4" /></span>
                     <div class="text-xs leading-tight">
                         <p class="font-bold text-slate-800">Kurir 1,2 km lagi</p>
